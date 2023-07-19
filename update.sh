@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-BASEDIR=$(dirname "$0")
+BASEDIR="$(dirname "$0")"
 cd "${BASEDIR}" || exit 1
-BASEDIR=$(pwd)
+BASEDIR="$(pwd)"
+BASEDIR_ESCAPED="$(printf '%q' "$BASEDIR")"
 
 set -x
 
@@ -28,11 +29,11 @@ function fail_out {
 }
 
 function upstream_git {
-    git -C "${BASEDIR}/${UPSTREAM_DIR}" "$@"
+    GIT_SSH_COMMAND="ssh -i ${BASEDIR_ESCAPED}/config/upstream.key" git -C "${BASEDIR}/${UPSTREAM_DIR}" "$@"
 }
 
 function launcher_git {
-    git -C "${BASEDIR}/${LAUNCHER_DIR}" "$@"
+    GIT_SSH_COMMAND="ssh -i ${BASEDIR_ESCAPED}/config/launcher.key" git -C "${BASEDIR}/${LAUNCHER_DIR}" "$@"
 }
 
 # make sure we *could* push to our repo
