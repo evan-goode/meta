@@ -27,5 +27,5 @@ jobs:
           ${{ secrets.UPSTREAM_KEY }}
           ${{ secrets.LAUNCHER_KEY }}
     - run: |
-        ./clone.sh
-        nix run
+        nix shell -c init
+        nix shell -c update
