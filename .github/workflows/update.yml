@@ -21,9 +21,11 @@ jobs:
       with:
         name: unmojang
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - run: |
-        ssh-add <(echo "$UPSTREAM_KEY")
-        ssh-add <(echo "$LAUNCHER_KEY")
+    - uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: |
+          ${{ secrets.UPSTREAM_KEY }}
+          ${{ secrets.LAUNCHER_KEY }}
     - run: |
         ./clone.sh
         nix run
